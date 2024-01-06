@@ -1,6 +1,12 @@
+import PoJos.ResponseHandlers.coindesk.ResponsePOJO;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.CoreMatchers.*;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +26,23 @@ public class localtester {
 		baseURI = "http://localhost:3000/";
 		
 	}
-	
-	
+
 	@Test
+	void TC_bitcoin() throws IOException {
+		ResponsePOJO responsePOJO;
+
+		Response response = given().when().get("https://api.coindesk.com/v1/bpi/currentprice.json").then().statusCode(200).extract().response();
+//		System.out.println(response.asPrettyString());
+
+		ObjectMapper mapper = new ObjectMapper();
+		responsePOJO = mapper.readValue(response.asString(),ResponsePOJO.class);
+
+		System.out.println(mapper.writeValueAsString(responsePOJO));
+//		System.out.println(responsePOJO.getBpi().getStringdetailsMap().get("USD").getRate());
+	}
+
+
+
 	void TC_01_get() {
 		
 		Response res = get("/user");
@@ -51,8 +71,7 @@ public class localtester {
 		
 		
 	}
-	
-	@Test
+
 	void TC_003_post() {
 		
 		JSONObject reqparam =new JSONObject();
