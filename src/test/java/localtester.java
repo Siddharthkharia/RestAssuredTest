@@ -1,6 +1,4 @@
-import PoJos.ResponseHandlers.coindesk.ResponsePOJO;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import PoJos.ResponseHandlers.CoinDeskResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.*;
@@ -10,7 +8,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tools.ant.filters.TokenFilter.ContainsString;
 import org.json.simple.JSONObject;
 import org.testng.annotations.*;
 
@@ -29,13 +26,13 @@ public class localtester {
 
 	@Test
 	void TC_bitcoin() throws IOException {
-		ResponsePOJO responsePOJO;
+		CoinDeskResponse responsePOJO;
 
 		Response response = given().when().get("https://api.coindesk.com/v1/bpi/currentprice.json").then().statusCode(200).extract().response();
 //		System.out.println(response.asPrettyString());
 
 		ObjectMapper mapper = new ObjectMapper();
-		responsePOJO = mapper.readValue(response.asString(),ResponsePOJO.class);
+		responsePOJO = mapper.readValue(response.asString(), CoinDeskResponse.class);
 
 		System.out.println(mapper.writeValueAsString(responsePOJO));
 //		System.out.println(responsePOJO.getBpi().getStringdetailsMap().get("USD").getRate());
