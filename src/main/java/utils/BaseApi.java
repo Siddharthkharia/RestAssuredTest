@@ -40,7 +40,7 @@ public class BaseApi extends specBuilder{
                 return response;
             case POST:
                 this.response= RestAssured.given().spec(this.getRequestSpecBuilder().build()).when().post();
-                response.then().spec(responseValidation()).log().ifValidationFails();
+                System.out.println(response.then().spec(responseValidation()).log().ifValidationFails().toString());
                 return response;
             default:
                 response =null;

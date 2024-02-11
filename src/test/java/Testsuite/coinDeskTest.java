@@ -35,6 +35,7 @@ public class coinDeskTest {
     public void testpostCall(){
         CoinDeskRequest coinDeskRequest = new CoinDeskRequest();
         coinDeskRequest.setMethodPost();
+        coinDeskRequest.setEnableLogConfig(true);
         coinDeskRequest.executeAndResponse();
         Response response = coinDeskRequest.getResponse();
         CoinDeskResponse coinDeskResponse = coinDeskRequest.ResponseToPojo(CoinDeskResponse.class,response);
